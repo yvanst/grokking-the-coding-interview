@@ -24,9 +24,10 @@ impl SolutionDp {
         // dp[index][sum] -> count
         let mut dp = vec![vec![0; target + 1]; nums.len()];
 
-        for i in 0..nums.len() {
-            dp[i][0] = 1;
-        }
+        // for i in 0..nums.len() {
+        //     dp[i][0] = 1;
+        // }
+        dp.iter_mut().for_each(|row| row[0] = 1);
 
         for s in 1..=target {
             dp[0][s] = if s == nums[0] as usize { 1 } else { 0 }

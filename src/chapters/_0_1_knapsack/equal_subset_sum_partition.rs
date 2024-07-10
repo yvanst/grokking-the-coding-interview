@@ -50,9 +50,10 @@ impl SolutionDp {
         // dp[index][sum] == true if we can make them sum from the first index numbers
         // note the array notation requries every num > 0 and target > 0
         let mut dp = vec![vec![false; target + 1]; nums.len()];
-        for i in 0..nums.len() {
-            dp[i][0] = true;
-        }
+        dp.iter_mut().for_each(|row| row[0] = true);
+        // for i in 0..nums.len() {
+        //     dp[i][0] = true;
+        // }
         for s in 0..=target {
             dp[0][s] = nums[0] == s;
         }

@@ -15,3 +15,7 @@
 // this approach of evaluating all possible solutions, going back whnever we see that a certain
 // constraint can't be met, and trying out other possible solutions is called backtracking.
 mod combination_sum;
+mod factor_combinations;
+mod split_a_string_into_the_max_number_of_unique_substrings;
+mod sudoku_solver;
+mod word_search;

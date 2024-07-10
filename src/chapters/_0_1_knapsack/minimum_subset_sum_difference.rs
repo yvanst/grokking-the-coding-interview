@@ -74,9 +74,11 @@ impl SolutionDp {
         // dp[index][sum]: up to index, can we find a combination that equals to sum
         let mut dp = vec![vec![false; target + 1]; nums.len()];
 
-        for i in 0..nums.len() {
-            dp[i][0] = true;
-        }
+        // for i in 0..nums.len() {
+        //     dp[i][0] = true;
+        // }
+        dp.iter_mut().for_each(|row| row[0] = true);
+
         for s in 0..=target {
             dp[0][s] = nums[0] as usize == s;
         }
@@ -101,50 +103,50 @@ impl SolutionDp {
 // mod tests {
 //     use super::*;
 
-    #[test]
-    fn test1() {
-        assert_eq!(
-            SolutionBruteForce::minimum_subset_sum_difference(vec![1, 2, 3, 9]),
-            3
-        );
-        assert_eq!(
-            SolutionBruteForce::minimum_subset_sum_difference(vec![1, 2, 7, 1, 5]),
-            0
-        );
-        assert_eq!(
-            SolutionBruteForce::minimum_subset_sum_difference(vec![1, 3, 100, 4]),
-            92
-        );
-    }
+#[test]
+fn test1() {
+    assert_eq!(
+        SolutionBruteForce::minimum_subset_sum_difference(vec![1, 2, 3, 9]),
+        3
+    );
+    assert_eq!(
+        SolutionBruteForce::minimum_subset_sum_difference(vec![1, 2, 7, 1, 5]),
+        0
+    );
+    assert_eq!(
+        SolutionBruteForce::minimum_subset_sum_difference(vec![1, 3, 100, 4]),
+        92
+    );
+}
 
-    #[test]
-    fn test2() {
-        assert_eq!(
-            SolutionMemoization::minimum_subset_sum_difference(vec![1, 2, 3, 9]),
-            3
-        );
-        assert_eq!(
-            SolutionMemoization::minimum_subset_sum_difference(vec![1, 2, 7, 1, 5]),
-            0
-        );
-        assert_eq!(
-            SolutionMemoization::minimum_subset_sum_difference(vec![1, 3, 100, 4]),
-            92
-        );
-    }
-    #[test]
-    fn test3() {
-        assert_eq!(
-            SolutionDp::minimum_subset_sum_difference(vec![1, 2, 3, 9]),
-            3
-        );
-        assert_eq!(
-            SolutionDp::minimum_subset_sum_difference(vec![1, 2, 7, 1, 5]),
-            0
-        );
-        assert_eq!(
-            SolutionDp::minimum_subset_sum_difference(vec![1, 3, 100, 4]),
-            92
-        );
-    }
+#[test]
+fn test2() {
+    assert_eq!(
+        SolutionMemoization::minimum_subset_sum_difference(vec![1, 2, 3, 9]),
+        3
+    );
+    assert_eq!(
+        SolutionMemoization::minimum_subset_sum_difference(vec![1, 2, 7, 1, 5]),
+        0
+    );
+    assert_eq!(
+        SolutionMemoization::minimum_subset_sum_difference(vec![1, 3, 100, 4]),
+        92
+    );
+}
+#[test]
+fn test3() {
+    assert_eq!(
+        SolutionDp::minimum_subset_sum_difference(vec![1, 2, 3, 9]),
+        3
+    );
+    assert_eq!(
+        SolutionDp::minimum_subset_sum_difference(vec![1, 2, 7, 1, 5]),
+        0
+    );
+    assert_eq!(
+        SolutionDp::minimum_subset_sum_difference(vec![1, 3, 100, 4]),
+        92
+    );
+}
 // }

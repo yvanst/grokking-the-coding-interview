@@ -98,9 +98,11 @@ impl SolutionDp {
         let mut dp = vec![vec![0; sum as usize + 1]; nums.len()];
         // same as the recursive method, there are two cases, the leaf node/edge case should be take
         // care of separately
-        for i in 0..nums.len() {
-            dp[i][0] = 1; // think carefully about the edge case
-        }
+        // for i in 0..nums.len() {
+        //     dp[i][0] = 1; // think carefully about the edge case
+        // }
+        dp.iter_mut().for_each(|row| row[0] = 1);
+
         for s in 1..=sum {
             dp[0][s as usize] = if s == nums[0] { 1 } else { 0 };
         }
@@ -126,32 +128,32 @@ impl SolutionDp {
 // mod tests {
 //     use super::*;
 
-    #[test]
-    fn test1() {
-        assert_eq!(
-            SolutionBruteForce::count_of_subset_sum(vec![1, 1, 2, 3], 4),
-            3
-        );
-        assert_eq!(
-            SolutionBruteForce::count_of_subset_sum(vec![1, 2, 7, 1, 5], 9),
-            3
-        );
-    }
+#[test]
+fn test1() {
+    assert_eq!(
+        SolutionBruteForce::count_of_subset_sum(vec![1, 1, 2, 3], 4),
+        3
+    );
+    assert_eq!(
+        SolutionBruteForce::count_of_subset_sum(vec![1, 2, 7, 1, 5], 9),
+        3
+    );
+}
 
-    #[test]
-    fn test2() {
-        assert_eq!(
-            SolutionMemoization::count_of_subset_sum(vec![1, 1, 2, 3], 4),
-            3
-        );
-        assert_eq!(
-            SolutionMemoization::count_of_subset_sum(vec![1, 2, 7, 1, 5], 9),
-            3
-        );
-    }
-    #[test]
-    fn test3() {
-        assert_eq!(SolutionDp::count_of_subset_sum(vec![1, 1, 2, 3], 4), 3);
-        assert_eq!(SolutionDp::count_of_subset_sum(vec![1, 2, 7, 1, 5], 9), 3);
-    }
+#[test]
+fn test2() {
+    assert_eq!(
+        SolutionMemoization::count_of_subset_sum(vec![1, 1, 2, 3], 4),
+        3
+    );
+    assert_eq!(
+        SolutionMemoization::count_of_subset_sum(vec![1, 2, 7, 1, 5], 9),
+        3
+    );
+}
+#[test]
+fn test3() {
+    assert_eq!(SolutionDp::count_of_subset_sum(vec![1, 1, 2, 3], 4), 3);
+    assert_eq!(SolutionDp::count_of_subset_sum(vec![1, 2, 7, 1, 5], 9), 3);
+}
 // }

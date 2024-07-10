@@ -9,9 +9,10 @@ impl SolutionDp {
         // dp[index][sum]
         let mut dp = vec![vec![false; sum + 1]; nums.len()];
 
-        for i in 0..nums.len() {
-            dp[i][0] = true;
-        }
+        // for i in 0..nums.len() {
+        //     dp[i][0] = true;
+        // }
+        dp.iter_mut().for_each(|row| row[0] = true);
 
         for s in 0..=sum {
             dp[0][s] = s == nums[0] as usize;
@@ -36,10 +37,10 @@ impl SolutionDp {
 // mod tests {
 //     use super::*;
 
-    #[test]
-    fn test1() {
-        assert!(SolutionDp::subset_sum(vec![1, 2, 3, 7], 6));
-        assert!(SolutionDp::subset_sum(vec![1, 2, 7, 1, 5], 10));
-        assert!(!SolutionDp::subset_sum(vec![1, 3, 4, 8], 6));
-    }
+#[test]
+fn test1() {
+    assert!(SolutionDp::subset_sum(vec![1, 2, 3, 7], 6));
+    assert!(SolutionDp::subset_sum(vec![1, 2, 7, 1, 5], 10));
+    assert!(!SolutionDp::subset_sum(vec![1, 3, 4, 8], 6));
+}
 // }

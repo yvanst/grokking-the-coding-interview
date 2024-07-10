@@ -89,10 +89,11 @@ impl SolutionDp {
         let mut dp = vec![vec![0; capacity as usize + 1]; weights.len()];
 
         // boundary capacity = 0 is not valid(but the state is in the dp array), capacity = total_capacity is valid
-        for i in 0..weights.len() {
-            // it's not valid, we just assign it to zero
-            dp[i][0] = 0;
-        }
+        // for i in 0..weights.len() {
+        // it's not valid, we just assign it to zero
+        // dp[i][0] = 0;
+        // }
+        dp.iter_mut().for_each(|row| row[0] = 0);
 
         // boundary index = 0 is valid, index = weights.len() is not valid(and the state is not in the dp array)
         for c in 0..=capacity {
