@@ -24,15 +24,10 @@ impl Solution {
         res
     }
 }
-// #[cfg(test)]
-// mod tests {
-
-use std::collections::HashSet;
-
-// use super::*;
 
 #[test]
 fn test_case() {
+    use std::collections::HashSet;
     assert_eq!(
         Solution::find_k_largest_pairs(vec![9, 8, 2], vec![6, 3, 1], 3)
             .iter()
@@ -47,4 +42,3 @@ fn test_case() {
         HashSet::from_iter([[5, 2], [5, -1], [2, 2]].iter())
     );
 }
-// }

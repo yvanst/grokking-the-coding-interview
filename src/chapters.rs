@@ -5,3 +5,5 @@ mod backtracking;
 mod hash_map;
 mod k_way_merge;
 mod real_problems;
+mod tree_breadth_first_search;
+mod tree_depth_first_search;
