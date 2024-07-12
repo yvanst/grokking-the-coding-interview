@@ -1,3 +1,9 @@
+mod first_non_repeating_character;
+mod largest_unique_number;
+mod longest_palindrome;
+mod maximum_number_of_balloons;
+mod ransom_note;
+
 /// hashing is a great tool to quickly access, protect, and verify data. here are a few of the
 /// common use cases of hashing:
 ///
@@ -39,8 +45,4 @@
 ///   corresponding slot
 ///   - separate chaining is an open hashing technique because the hash table is open to
 ///   accommodate multiple elements within a single bucket to handle collisions
-mod first_non_repeating_character;
-mod largest_unique_number;
-mod longest_palindrome;
-mod maximum_number_of_balloons;
-mod ransom_note;
+struct Note;
