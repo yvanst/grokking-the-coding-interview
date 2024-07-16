@@ -6,7 +6,7 @@ use std::collections::HashMap;
 ///
 /// by using a hashmap to store the frequency of each word in the list and another
 /// hashmap to track the words seen in the current window, we can efficiently validate
-/// the concatenations. -> move a character would only invalidate the leftmost word
+/// the concatenations.
 struct Solution;
 
 impl Solution {

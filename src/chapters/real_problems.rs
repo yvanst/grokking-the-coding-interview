@@ -1,2 +1,1 @@
-mod ip2num_direct;
-mod ip2num_iter;
+mod convert_ip_address_to_numbers;
