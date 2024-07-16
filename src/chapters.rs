@@ -8,6 +8,7 @@ mod k_way_merge;
 mod real_problems;
 mod sliding_window;
 mod stacks;
+mod subsets;
 mod tree_breadth_first_search;
 mod tree_depth_first_search;
 mod two_pointers;
