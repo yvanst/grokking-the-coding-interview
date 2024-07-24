@@ -66,15 +66,7 @@ impl Iterator for SolutionIterator {
             self.pos = idx + 1;
         }
 
-        if let Some(num) = res {
-            if num < 256 {
-                Some(num as u8)
-            } else {
-                None
-            }
-        } else {
-            None
-        }
+        res.and_then(|n| if n < 256 { Some(n as u8) } else { None })
     }
 }
 

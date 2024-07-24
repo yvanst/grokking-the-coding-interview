@@ -15,6 +15,7 @@ impl Solution {
     fn subsets_with_duplicates(mut nums: Vec<i32>) -> Vec<Vec<i32>> {
         nums.sort();
         let mut queue: Vec<Vec<i32>> = Vec::new();
+        queue.push(vec![]);
 
         let mut prev_round_start = 0;
         for (idx, &n) in nums.iter().enumerate() {
