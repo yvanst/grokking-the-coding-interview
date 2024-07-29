@@ -7,6 +7,6 @@ mod evaluate_expression;
 mod permutations;
 mod string_permutations_by_changing_case;
 mod structurally_unique_binary_search_trees;
-mod subsets;
+mod _subsets;
 mod subsets_with_duplicates;
 mod unique_generalized_abbreviations;

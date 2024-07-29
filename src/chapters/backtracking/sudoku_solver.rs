@@ -1,5 +1,11 @@
-use std::cell::RefCell;
-use std::rc::Rc;
+//! Write a program to solve a Sudoku puzzle by filling the empty cells.
+//!
+//! A sudoku solution must satisfy all of the following rules:
+//! - Each of the digits 1-9 must occur exactly once in each row.
+//! - Each of the digits 1-9 must occur exactly once in each column.
+//! - Each of the digits 1-9 must occur exactly once in each of the 9 3x3 sub-boxes of the grid.
+//! The '.' character indicates empty cells.
+
 use std::sync::atomic::AtomicU32;
 /// here are the steps to solve a sudoku puzzle using backtracking:
 /// 1. start with an empty 9x9 grid and fill in the numbers that are given in the puzzle.
@@ -18,35 +24,28 @@ struct Solution;
 static COUNT: AtomicU32 = AtomicU32::new(0);
 
 impl Solution {
-    fn sudoku_solver(board: Vec<Vec<char>>) -> Option<Vec<Vec<char>>> {
-        let board = Rc::new(RefCell::new(board));
-
-        if Self::dfs(board.clone()) {
+    fn sudoku_solver(mut board: Vec<Vec<char>>) -> Option<Vec<Vec<char>>> {
+        if Self::dfs(&mut board) {
             dbg!(&COUNT);
-            let borrow = board.borrow();
-            Some(borrow.clone())
+            Some(board)
         } else {
             None
         }
     }
 
-    // the final result board is the side effect, we need a signal to denote if success, so bool here
-    fn dfs(board: Rc<RefCell<Vec<Vec<char>>>>) -> bool {
+    // the final result board is the side effect, we need a signal to denote if success, so bool
+    // here
+    fn dfs(board: &mut Vec<Vec<char>>) -> bool {
         COUNT.fetch_add(1, std::sync::atomic::Ordering::SeqCst);
-        let (m, n) = {
-            let borrow = board.borrow();
-            (borrow.len(), borrow[0].len())
-        };
-        for i in 0..m {
-            for j in 0..n {
-                if board.borrow()[i][j] == '.' {
+        for i in 0..board.len() {
+            for j in 0..board[0].len() {
+                if board[i][j] == '.' {
                     for ch in '1'..='9' {
-                        if Self::is_valid(board.clone(), i, j, ch) {
-                            board.borrow_mut()[i][j] = ch;
+                        if Self::is_valid(board, i, j, ch) {
+                            board[i][j] = ch;
                             // early return, save the final result
-                            if Self::dfs(board.clone()) {
-                                // we don't return on false case,
-                                // rather, we try the next iteration
+                            // we don't return on false case, rather, we try the next iteration
+                            if Self::dfs(board) {
                                 return true;
                             };
                         }
@@ -54,7 +53,7 @@ impl Solution {
                     // tried all 0..=9 case, didn't hit early return,
                     // must something wrong previously, we return false here
                     // correspondes to the previous return true
-                    board.borrow_mut()[i][j] = '.';
+                    board[i][j] = '.';
                     return false;
                 }
             }
@@ -68,19 +67,19 @@ impl Solution {
         true
     }
 
-    fn is_valid(board: Rc<RefCell<Vec<Vec<char>>>>, i: usize, j: usize, ch: char) -> bool {
+    fn is_valid(board: &[Vec<char>], i: usize, j: usize, ch: char) -> bool {
         // we can do the is_valid check in one loop
         for n in 0..9 {
-            if board.borrow()[i][n] == ch {
+            if board[i][n] == ch {
                 return false;
             }
-            if board.borrow()[n][j] == ch {
+            if board[n][j] == ch {
                 return false;
             }
             // find the region the cell belongs to (i/3)*3 (j/3)*3  -> e.g., (0,0), (3,3), (6,6)
             // (n/3)(n%3) is all the combination of (0..3)*(0..3),
             // thus we can traverse all the cell in the region.
-            if board.borrow()[(i / 3) * 3 + n / 3][(j / 3) * 3 + n % 3] == ch {
+            if board[(i / 3) * 3 + n / 3][(j / 3) * 3 + n % 3] == ch {
                 return false;
             }
         }
@@ -88,8 +87,12 @@ impl Solution {
     }
 }
 
+/// since the board size is fixed, the time complexity is O(1), as there is no variable input.
+/// though the number of operations needed is (9!)^9.
+///
+/// the board size is fixed, so the space complexity is O(1).
 #[test]
-fn test1() {
+fn test() {
     assert_eq!(
         Solution::sudoku_solver(vec![
             vec!['5', '3', '.', '.', '7', '.', '.', '.', '.'],
