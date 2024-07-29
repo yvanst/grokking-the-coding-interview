@@ -10,6 +10,7 @@ mod real_problems;
 mod sliding_window;
 mod stacks;
 mod subsets;
+mod top_k_elements;
 mod tree_breadth_first_search;
 mod tree_depth_first_search;
 mod two_heaps;
