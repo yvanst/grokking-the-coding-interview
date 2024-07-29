@@ -119,10 +119,6 @@ impl SolutionDp {
     }
 }
 
-// #[cfg(test)]
-// mod tests {
-//     use super::*;
-
 #[test]
 fn test1() {
     assert_eq!(
@@ -145,4 +141,3 @@ fn test1() {
         SolutionDp::solve_knapsack(vec![1, 6, 10, 16], vec![1, 2, 3, 5], 6)
     );
 }
-// }

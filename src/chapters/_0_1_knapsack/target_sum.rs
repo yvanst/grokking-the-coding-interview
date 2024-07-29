@@ -1,16 +1,17 @@
-/// let's say sum(s1) denotes the total sum of set s1, and
-/// sum(s2) denotes the total sum of set s2. so the requried
-/// equation is that sum(s1) - sum(s2) = S
+//! You are given a set of positive numbers and a target sum S. Each number should be assigned
+//! either a + or - sign. We need to find the total ways to assign symbols to make the sum of
+//! the numbers equal to the target S.
+
+/// let's say sum(s1) denotes the total sum of set s1, and sum(s2) denotes the total sum of set s2.
+/// so the required equation is that sum(s1) - sum(s2) = S
 ///
-/// this equation can be reduced to the subset sum problem. let's
-/// assume that sum(num) denote the total sum of all the numbers,
-/// there fore sum(s1) + sum(s2) = sum(num)
+/// this equation can be reduced to the subset sum problem. let's assume that sum(num) denote the
+/// total sum of all the numbers, therefore sum(s1) + sum(s2) = sum(num)
 ///
 /// let's add the two equations, we have 2 * sum(s1) = S + sum(num)
 ///
-/// this essentially converts our problem to find the count of subsets
-/// of the given numbers whose sum is equal to (S + sum(num)) / 2,
-/// note that the sum should be even
+/// this essentially converts our problem to find the count of subsets of the given numbers whose
+/// sum is equal to (S + sum(num)) / 2, note that the sum should be even
 struct SolutionDp;
 
 impl SolutionDp {
@@ -24,10 +25,9 @@ impl SolutionDp {
         // dp[index][sum] -> count
         let mut dp = vec![vec![0; target + 1]; nums.len()];
 
-        // for i in 0..nums.len() {
-        //     dp[i][0] = 1;
-        // }
-        dp.iter_mut().for_each(|row| row[0] = 1);
+        for outer in dp.iter_mut() {
+            outer[0] = 1;
+        }
 
         for s in 1..=target {
             dp[0][s] = if s == nums[0] as usize { 1 } else { 0 }
@@ -48,13 +48,10 @@ impl SolutionDp {
     }
 }
 
-// #[cfg(test)]
-// mod tests {
-//     use super::*;
-
+/// the above solution has time and space complexity of O(NS), where N represents total numbers and
+/// S is the desired sum
 #[test]
 fn test1() {
     assert_eq!(SolutionDp::target_sum(vec![1, 1, 2, 3], 1), 3);
     assert_eq!(SolutionDp::target_sum(vec![1, 2, 7, 1], 9), 2);
 }
-// }

@@ -18,8 +18,8 @@ impl Solution {
         }
 
         group
-            .iter()
-            .map(|e| *e as u64)
+            .into_iter()
+            .map(|e| e as u64)
             .reduce(|acc, e| acc * 256 + e)
     }
 }
@@ -82,8 +82,8 @@ impl SolutionIterator {
         if nums.len() != 4 {
             return None;
         }
-        nums.iter()
-            .map(|&e| e as u64)
+        nums.into_iter()
+            .map(|e| e as u64)
             .reduce(|acc, e| acc * 256 + e)
     }
 }

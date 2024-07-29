@@ -1,19 +1,22 @@
-use std::{cell::RefCell, rc::Rc};
+//! Given a set of positive numbers, partition the set into two subsets with minimum difference
+//! between their subset sums.
+
+use std::collections::HashMap;
+/// this problem follows the 0/1 Knapsack pattern and can be converted into a Subset Sum problem
 struct SolutionBruteForce;
 
 impl SolutionBruteForce {
     fn minimum_subset_sum_difference(nums: Vec<u32>) -> u32 {
-        let nums = Rc::new(nums);
-        Self::recur(nums.clone(), 0, 0, 0)
+        Self::dfs(&nums, 0, 0, 0)
     }
 
-    fn recur(nums: Rc<Vec<u32>>, index: usize, sum1: u32, sum2: u32) -> u32 {
+    fn dfs(nums: &[u32], index: usize, sum1: u32, sum2: u32) -> u32 {
         if index == nums.len() {
             return sum1.abs_diff(sum2);
         }
 
-        let diff1 = Self::recur(nums.clone(), index + 1, sum1 + nums[index], sum2);
-        let diff2 = Self::recur(nums.clone(), index + 1, sum1, sum2 + nums[index]);
+        let diff1 = Self::dfs(nums, index + 1, sum1 + nums[index], sum2);
+        let diff2 = Self::dfs(nums, index + 1, sum1, sum2 + nums[index]);
 
         diff1.min(diff2)
     }
@@ -22,17 +25,14 @@ impl SolutionBruteForce {
 struct SolutionMemoization;
 impl SolutionMemoization {
     fn minimum_subset_sum_difference(nums: Vec<u32>) -> u32 {
-        let nums = Rc::new(nums);
-        let sum = nums.iter().sum::<u32>() as usize;
         // memo[index][sum] -> diff
-        let memo = vec![vec![-1; sum + 1]; nums.len()];
-        let memo = Rc::new(RefCell::new(memo));
-        Self::recursive(memo, nums, 0, 0, 0)
+        let mut memo: HashMap<(usize, u32), u32> = HashMap::new();
+        Self::dfs(&mut memo, &nums, 0, 0, 0)
     }
 
-    fn recursive(
-        memo: Rc<RefCell<Vec<Vec<i32>>>>,
-        nums: Rc<Vec<u32>>,
+    fn dfs(
+        memo: &mut HashMap<(usize, u32), u32>,
+        nums: &[u32],
         index: usize,
         sum1: u32,
         sum2: u32,
@@ -40,44 +40,40 @@ impl SolutionMemoization {
         if index >= nums.len() {
             return sum1.abs_diff(sum2);
         }
-        if memo.borrow()[index][sum1 as usize] > 0 {
-            return memo.borrow()[index][sum1 as usize] as u32;
+        if let Some(diff) = memo.get(&(index, sum1)) {
+            return *diff;
         }
-        let diff1 = Self::recursive(
-            memo.clone(),
-            nums.clone(),
-            index + 1,
-            sum1 + nums[index],
-            sum2,
-        );
-        let diff2 = Self::recursive(
-            memo.clone(),
-            nums.clone(),
-            index + 1,
-            sum1,
-            sum2 + nums[index],
-        );
+        let diff1 = Self::dfs(memo, nums, index + 1, sum1 + nums[index], sum2);
+        let diff2 = Self::dfs(memo, nums, index + 1, sum1, sum2 + nums[index]);
 
         let res = diff1.min(diff2);
-        memo.borrow_mut()[index][sum1 as usize] = res as i32;
+        memo.insert((index, sum1), res);
         res
     }
 }
 
+/// let's assume S represents the total sum of all the numbers. so, in this problem, we are trying
+/// to find a subset whose sum is as close to S/2 as possible. if we can partition the given set
+/// into two subsets of an equal sum, we get the minimum difference 0. this transforms our problem
+/// to Subset Sum, where we try to find a subset whose sum is equal to a given number.
+/// if we can't find such a subset, then we will take the subset which has the sum closet to S/2.
+/// this is easily possible, as we will be calculating all possible sums with every subset.
+///
+/// what is the closet subset we can find? we can find the subset if we start moving backwards in
+/// the last row from the bottom right corner to find the first true.
 struct SolutionDp;
 
 /// use true/false for the dp is always easy and we favor that case;
-/// yet we can use information besides the last value
+/// yet we have other informations besides the last value
 impl SolutionDp {
     fn minimum_subset_sum_difference(nums: Vec<u32>) -> u32 {
         let target = (nums.iter().sum::<u32>() / 2) as usize;
         // dp[index][sum]: up to index, can we find a combination that equals to sum
         let mut dp = vec![vec![false; target + 1]; nums.len()];
 
-        // for i in 0..nums.len() {
-        //     dp[i][0] = true;
-        // }
-        dp.iter_mut().for_each(|row| row[0] = true);
+        for outer in dp.iter_mut() {
+            outer[0] = true;
+        }
 
         for s in 0..=target {
             dp[0][s] = nums[0] as usize == s;
@@ -99,10 +95,10 @@ impl SolutionDp {
     }
 }
 
-// #[cfg(test)]
-// mod tests {
-//     use super::*;
-
+/// because of the two recursive calls, the time complexity of the above algorithm is exponential
+/// O(2^N), where N represents the total number.
+///
+/// the space complexity is O(N), which is used to store the recursion stack.
 #[test]
 fn test1() {
     assert_eq!(
@@ -134,6 +130,8 @@ fn test2() {
         92
     );
 }
+/// the above solution has the time and space complexity of O(NS), where N represents total numbers
+/// and S is the total sum of all the numbers
 #[test]
 fn test3() {
     assert_eq!(
@@ -149,4 +147,3 @@ fn test3() {
         92
     );
 }
-// }
