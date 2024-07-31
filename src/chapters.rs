@@ -4,6 +4,7 @@ mod _0_1_knapsack;
 mod backtracking;
 mod fast_and_slow_pointers;
 mod hash_map;
+mod island;
 mod k_way_merge;
 mod modified_binary_search;
 mod real_problems;
