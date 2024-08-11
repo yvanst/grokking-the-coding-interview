@@ -1,25 +1,24 @@
-/// we can use a more optimized approach using stack data structure. the algorithm
-/// will leverage the nature of the stack data structure, where the most recently
-/// added elements are the first ones to be removed.
-///
-/// starting from the end of the array, the algorithm always maintains elements in
-/// the stack that are larger than the current element. this way, it ensures that it
-/// has a candidate for the next larger element. if there is no larger element, it
-/// assigns -1 to that position. it handles each element of the array only once, making
-/// it an efficient solution.
-///
-/// detailed step-by-step walkthrough:
-/// 3. start a loop that goes from the last index of the array to the first
-/// 4. in each iteration, while there are elements in the stack and the top elements of
-///    the stack is less than or equal to the current element in the array, remove
-///    elements from the stack. this step ensures that we retain only the elements in
-///    the stack that are larger than the current element
-/// 5. after the popping process, if there is still an element left in the stack, it
-///    is the next larger element for the current array element. so assign the top element
-///    of the stack to the corresponding position in the res array
-/// 6. now, push the current array element into the stack. this action considers the
-///    current element as a possible next larger element for the upcoming elements in
-///    the remaining iterations   -> think that n-1 is larger/smaller than n, stack can work in both cases
+/// we can use a more optimized approach using stack data structure. the algorithm will leverage the
+/// nature of the stack data structure, where the most recently added elements are the first ones to
+/// be removed.
+/// 
+/// starting from the end of the array, the algorithm always maintains elements in the stack that
+/// are larger than the current element. this way, it ensures that it has a candidate for the next
+/// larger element. if there is no larger element, it assigns -1 to that position. it handles each
+/// element of the array only once, making it an efficient solution.
+/// 
+/// detailed step-by-step walkthrough: 
+/// 3. start a loop that goes from the last index of the array to the first 
+/// 4. in each iteration, while there are elements in the stack and the top elements of the stack is
+/// less than or equal to the current element in the array, remove elements from the stack. this
+/// step ensures that we retain only the elements in the stack that are larger than the current
+/// element 
+/// 5. after the popping process, if there is still an element left in the stack, it is the next
+/// larger element for the current array element. so assign the top element of the stack to the
+/// corresponding position in the res array 
+/// 6. now, push the current array element into the stack. this action considers the current element
+/// as a possible next larger element for the upcoming elements in the remaining iterations   ->
+/// think that n-1 is larger/smaller than n, stack can work in both cases
 struct Solution;
 
 impl Solution {
